@@ -15,20 +15,26 @@ Stack:
 
 ##### Clone this project
 
-`git clone https://github.com/antonyho/debian-servuo-dockerfile.git`
+```
+git clone https://github.com/antonyho/debian-servuo-dockerfile.git
+```
 
 ##### Build the image
 
 Go to the Dockerfile directory
 
-`docker build --rm -t antonyho/debian-servuo-server .`
+```
+docker build --rm -t antonyho/debian-servuo-server .
+```
 
 
 #### Starting the container
 
 ##### Run the image
 
-`docker run --rm -d -p 2593:2593 antonyho/debian-servuo-server`
+```
+docker run --rm -d -p 2593:2593 antonyho/debian-servuo-server
+```
 
 
 ### Docker Compose Route
@@ -46,34 +52,44 @@ Before you start:
 
 You don't really need this step. But you can pre-build the image and just launch the image directly.
 
-`docker-compose build`
+```
+docker-compose build
+```
 
 
 #### Starting the suite
 
 On the first launch, I suggest to set these ENVVARS on the host, to initialise owner account.
 
-`export OWNER_USERNAME=adminAccount`
-`export OWNER_PASSWORD=AComplicatedAdminPassword`
+```
+export OWNER_USERNAME=adminAccount
+export OWNER_PASSWORD=AComplicatedAdminPassword
+```
 
 You don't need to set the ENVVARS after the first run, because the owner account is created. 
 Remember the account credential which you set here!
 
 Then execute the follow command to launch the suite
 
-`docker-compose up -d`
+```
+docker-compose up -d
+```
 
 After the shard is launched, you may unset the owner credential from ENVVARS for safety reason.
 
-`unset OWNER_USERNAME`
-`unset OWNER_PASSWORD`
+```
+unset OWNER_USERNAME
+unset OWNER_PASSWORD
+```
 
 
 #### Stopping the suite
 
 If you just want to stop the services
 
-`docker-compose down`
+```
+docker-compose down
+```
 
 
 #### Cleaning up the Docker images
@@ -81,7 +97,9 @@ If you just want to stop the services
 If you don't want the Docker images and volumes, 
 you may remove them.
 
-`docker-compose down --rmi all --remove-orphans --volumes`
+```
+docker-compose down --rmi all --remove-orphans --volumes
+```
 
 
 ### Notes
