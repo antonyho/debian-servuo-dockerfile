@@ -1,0 +1,42 @@
+version: "3.9"
+services:
+  servuo:
+    build: .
+    ports:
+      - "2593:2593"
+    volumes:
+      - gamedata:/uo-game-data:ro
+      - scripts:/servuo-custom-scripts:ro
+      - configs:/servuo-custom-configs:ro
+      - saves:/ServUO/Saves
+      - ./entrypoint.sh:/entrypoint.sh
+    environment:
+      - OWNER_USERNAME=${OWNER_USERNAME}
+      - OWNER_PASSWORD=${OWNER_PASSWORD}
+    command: /entrypoint.sh
+
+volumes:
+  gamedata:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./gamedata
+  scripts:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./scripts
+  configs:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./configs
+  saves:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./saves

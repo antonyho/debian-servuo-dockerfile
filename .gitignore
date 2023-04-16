@@ -1,0 +1,10 @@
+# UO client game data is licensed proprietary data,
+# doing so will bleach the copyright on EA Mythic.
+gamedata/
+!gamedata/README.md
+
+# Shard save files should be kept private, 
+# you may remove this if you want to push 
+# your save files to your GIT repo.
+saves/
+!saves/README.md
