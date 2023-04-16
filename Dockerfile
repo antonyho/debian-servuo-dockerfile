@@ -1,4 +1,4 @@
-FROM debian:latest AS builder
+FROM debian:11 AS builder
 RUN apt-get update
 RUN apt-get install -y wget git
 RUN wget https://packages.microsoft.com/config/debian/11/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
@@ -8,7 +8,7 @@ RUN git clone https://github.com/ServUO/ServUO.git
 WORKDIR /ServUO
 RUN dotnet build
 
-FROM debian:latest
+FROM debian:11
 RUN apt-get update
 RUN apt-get install -y mono-complete
 WORKDIR /ServUO
