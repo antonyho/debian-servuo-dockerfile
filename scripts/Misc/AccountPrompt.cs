@@ -9,20 +9,18 @@ namespace Server.Misc
         {
             if (Accounts.Count == 0 && !Core.Service)
             {
-                Console.WriteLine("This server has no accounts.");
-                Console.Write("Do you want to create the owner account now? (y/n)");
+                string username = System.Environment.GetEnvironmentVariable("OWNER_USERNAME");
+                string password = System.Environment.GetEnvironmentVariable("OWNER_PASSWORD");
 
-                string key = Console.ReadLine();
-
-                if (key.ToUpper() == "Y")
+                if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
                 {
-                    string ownerUsername = System.Environment.GetEnvironmentVariable("owner-username");
-                    string ownerPassword = System.Environment.GetEnvironmentVariable("owner-password");
-
-                    if (
-                        string.IsNullOrWhiteSpace(ownerUsername) || 
-                        string.IsNullOrWhiteSpace(ownerPassword)
-                    ) {
+                    Console.WriteLine("This server has no accounts.");
+                    Console.Write("Do you want to create the owner account now? (y/n)");
+                    
+                    string key = Console.ReadLine();
+                    
+                    if (key.ToUpper() == "Y")
+                    {
                         Console.WriteLine();
                         
                         Console.Write("Username: ");
@@ -31,20 +29,22 @@ namespace Server.Misc
                         Console.Write("Password: ");
                         password = Console.ReadLine();
                     }
-
-                    _ = new Account(username, password)
+                    else
                     {
-                        AccessLevel = AccessLevel.Owner
-                    };
+                        Console.WriteLine();
+                        
+                        Console.WriteLine("Account not created.");
 
-                    Console.WriteLine("Account created.");
+                        return;
+                    }
                 }
-                else
+
+                _ = new Account(username, password)
                 {
-                    Console.WriteLine();
-
-                    Console.WriteLine("Account not created.");
-                }
+                    AccessLevel = AccessLevel.Owner
+                };
+                
+                Console.WriteLine("Account created.");
             }
         }
     }

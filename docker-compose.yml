@@ -9,20 +9,11 @@ services:
       - scripts:/servuo-custom-scripts:ro
       - configs:/servuo-custom-configs:ro
       - saves:/ServUO/Saves
-    secrets:
-      - owner-username
-      - owner-password
+      - ./entrypoint.sh:/entrypoint.sh
     environment:
-      OWNER_USERNAME: /run/secrets/owner-username
-      OWNER_PASSWORD: /run/secrets/owner-password
-  filecopier:
-    image: debian:11
-    volumes:
-      - ./copy-files.sh:/copy-files.sh:ro
-      - scripts:/servuo-custom-scripts:ro
-      - configs:/servuo-custom-configs:ro
-    command: [ "/copy-files.sh" ]
-    restart: "no"
+      - OWNER_USERNAME=${OWNER_USERNAME}
+      - OWNER_PASSWORD=${OWNER_PASSWORD}
+    command: /entrypoint.sh
 
 volumes:
   gamedata:
@@ -49,9 +40,3 @@ volumes:
       type: none
       o: bind
       device: ./saves
-
-secrets:
-  owner-username:
-    environment: "OWNER_USERNAME"
-  owner-password:
-    environment: "OWNER_PASSWORD"

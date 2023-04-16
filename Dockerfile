@@ -6,6 +6,8 @@ RUN dpkg -i packages-microsoft-prod.deb && rm packages-microsoft-prod.deb
 RUN apt-get update && apt-get install -y dotnet-sdk-7.0
 RUN git clone https://github.com/ServUO/ServUO.git
 WORKDIR /ServUO
+COPY /scripts /servuo-custom-scripts
+RUN cp -r /servuo-custom-scripts/* /ServUO/Scripts/
 RUN dotnet build
 
 FROM debian:11
@@ -14,4 +16,3 @@ RUN apt-get install -y mono-complete
 WORKDIR /ServUO
 COPY --from=builder /ServUO /ServUO
 CMD ["mono", "ServUO.exe"]
-
