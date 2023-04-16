@@ -1,0 +1,57 @@
+version: "3.9"
+services:
+  servuo:
+    build: .
+    ports:
+      - "2593:2593"
+    volumes:
+      - gamedata:/uo-game-data:ro
+      - scripts:/servuo-custom-scripts:ro
+      - configs:/servuo-custom-configs:ro
+      - saves:/ServUO/Saves
+    secrets:
+      - owner-username
+      - owner-password
+    environment:
+      OWNER_USERNAME: /run/secrets/owner-username
+      OWNER_PASSWORD: /run/secrets/owner-password
+  filecopier:
+    image: debian:11
+    volumes:
+      - ./copy-files.sh:/copy-files.sh:ro
+      - scripts:/servuo-custom-scripts:ro
+      - configs:/servuo-custom-configs:ro
+    command: [ "/copy-files.sh" ]
+    restart: "no"
+
+volumes:
+  gamedata:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./gamedata
+  scripts:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./scripts
+  configs:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./configs
+  saves:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./saves
+
+secrets:
+  owner-username:
+    environment: "OWNER_USERNAME"
+  owner-password:
+    environment: "OWNER_PASSWORD"

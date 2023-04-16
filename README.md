@@ -6,6 +6,9 @@ Stack:
 - .NET 7.0
 - Mono
 
+
+### Building the image
+
 ##### Clone this project
 
 `git clone https://github.com/antonyho/debian-servuo-dockerfile.git`
@@ -16,14 +19,67 @@ Go to the Dockerfile directory
 
 `docker build --rm -t antonyho/debian-servuo-server .`
 
+
+### Prepare the data files and configurations
+
+Before you start:
+
+- Download UO client and copy the game client data to the "gamedata" directory
+- Take the config from [ServUO project](https://github.com/ServUO/ServUO/tree/master/Config) and put only your custom config files into the "configs" directory
+- Put your custom scripts to the "scripts" directory
+
+
+### Starting the container
+
 ##### Run the image
 
 `docker run --rm -d -p 2593:2593 antonyho/debian-servuo-server`
 
 
+### Starting the suite
+
+On the first launch, I suggest to set these ENVVARS on the host, to initialise owner account.
+
+`export OWNER_USERNAME=adminAccount`
+`export OWNER_PASSWORD=AComplicatedAdminPassword`
+
+Then execute the follow command to launch the suite
+
+`docker-compose up -d`
+
+You don't need to set the ENVVARS after the first run, because the owner account is created. 
+Remember the account!
+
+
+### Stopping the suite
+
+If you just want to stop the services
+
+`docker-compose down`
+
+If you want to remove everything
+
+`docker-compose down --rmi all --remove-orphans --volumes`
+
+
+### Notes
+
+I do not use [Docker Compose Configs](https://docs.docker.com/compose/compose-file/08-configs/), 
+because [Volumes](https://docs.docker.com/compose/compose-file/07-volumes/) is more convenient 
+in this use case.
+
+I can overwrite the config files to the shard when they are present. 
+Instead of mounting the directory, that forces the shard owner to add 
+all config files even with default values.
+
+I mount the local directory to the shard's "Saves" directory for easier access 
+and backup. You may change that Docker volume if you want to do it 
+in a differeny way.
+
+
 ## TODO
 
-- [ ] Use docker-compose
-- [ ] Mounting data files volume
-- [ ] Mounting config files volume
-- [ ] Optionally mounting script files volume
+- [X] Use docker-compose
+- [X] Mounting data files volume
+- [X] Mounting config files volume
+- [X] Optionally mounting script files volume
