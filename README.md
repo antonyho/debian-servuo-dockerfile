@@ -17,7 +17,7 @@ Go to the Dockerfile directory
 
 
 ## TODO
-[ ] Use docker-compose
-[ ] Mounting data files volume
-[ ] Mounting config files volume
-[ ] Optionally mounting script files volume
+- [ ] Use docker-compose
+- [ ] Mounting data files volume
+- [ ] Mounting config files volume
+- [ ] Optionally mounting script files volume
